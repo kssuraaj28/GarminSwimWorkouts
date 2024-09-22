@@ -1,5 +1,7 @@
 import java.util.List;
+import java.util.function.Function;
 
+// TODO: Calculate yardage
 /*
  * Objects of this class are your swim workouts
  */
@@ -76,6 +78,14 @@ public class SwimWorkout {
     public final List<SwimWorkoutStep> cooldown;
     public final Pool pooltype;
 
+    public int totalLapCount(List<SwimWorkoutStep> inp) {
+        int ret = 0;
+        for (var step : inp) {
+            ret += step.lap_count * step.repeats;
+        }
+        return ret;
+    }
+
     public SwimWorkout(
             String name,
             List<SwimWorkoutStep> warmup,
@@ -91,12 +101,15 @@ public class SwimWorkout {
 
     @Override
     public String toString() {
+        final var warmup_cnt = totalLapCount(warmup);
+        final var main_cnt = totalLapCount(main);
+        final var cool_cnt = totalLapCount(cooldown);
+
+        Function<Integer, Integer> toUnits = (n) -> n * (pooltype == Pool.LCM ? 50 : 25);
+
         return String.format("%s (%s)", name, pooltype) +
-                "\n--Warmup--\n" +
-                warmup.toString() +
-                "\n--Main Set--\n" +
-                main.toString() +
-                "\n--Cooldown--\n" +
-                cooldown.toString();
+                String.format("\n--Warmup(%d)--\n%s", toUnits.apply(warmup_cnt), warmup.toString()) +
+                String.format("\n--Main(%d)--\n%s", toUnits.apply(main_cnt), main.toString()) +
+                String.format("\n--Cooldown(%d)--\n%s", toUnits.apply(cool_cnt), cooldown.toString());
     }
 }
