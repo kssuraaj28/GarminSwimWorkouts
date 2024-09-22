@@ -1,0 +1,283 @@
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2024 Garmin International, Inc.
+// Licensed under the Flexible and Interoperable Data Transfer (FIT) Protocol License; you
+// may not use this file except in compliance with the Flexible and Interoperable Data
+// Transfer (FIT) Protocol License.
+/////////////////////////////////////////////////////////////////////////////////////////////
+// There's some package thing that I can do
+
+import com.garmin.fit.DateTime;
+import com.garmin.fit.DisplayMeasure;
+import com.garmin.fit.File;
+import com.garmin.fit.FileEncoder;
+import com.garmin.fit.FileIdMesg;
+import com.garmin.fit.Fit;
+import com.garmin.fit.FitRuntimeException;
+import com.garmin.fit.Intensity;
+import com.garmin.fit.Manufacturer;
+import com.garmin.fit.Sport;
+import com.garmin.fit.SubSport;
+import com.garmin.fit.SwimStroke;
+import com.garmin.fit.WktStepDuration;
+import com.garmin.fit.WktStepTarget;
+import com.garmin.fit.WorkoutEquipment;
+import com.garmin.fit.WorkoutMesg;
+import com.garmin.fit.WorkoutStepMesg;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
+
+public class EncodeSwimWorkout {
+    public static void main(String[] args) {
+        try {
+            CreatePoolSwimWorkout();            
+        } catch (Exception e) {
+            System.out.println("Exception encoding workout: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void CreatePoolSwimWorkout() {
+        ArrayList<WorkoutStepMesg> workoutSteps = new ArrayList<WorkoutStepMesg>();
+
+        workoutSteps.add(CreateWorkoutStepSwim(
+                workoutSteps.size(),
+                YardsToMeters(100),
+                "Warmup",
+                null,
+                Intensity.WARMUP,
+                SwimStroke.FREESTYLE,
+                null));
+        workoutSteps.add(CreateWorkoutStepSwimRest(
+                workoutSteps.size(),
+                WktStepDuration.TIME,
+                30f));
+
+
+
+        workoutSteps.add(CreateWorkoutStepSwim(
+                workoutSteps.size(),
+                YardsToMeters(100),
+                "Free Kick",
+                null,
+                Intensity.WARMUP,
+                SwimStroke.DRILL,
+                WorkoutEquipment.SWIM_KICKBOARD));
+        workoutSteps.add(CreateWorkoutStepSwimRest(
+                workoutSteps.size(),
+                WktStepDuration.TIME,
+                30f));
+
+        // Rest until lap button pressed
+        workoutSteps.add(CreateWorkoutStepSwimRest(
+                workoutSteps.size(),
+                WktStepDuration.OPEN,
+                null));
+
+        // Drill w/ kickboard 200 yds
+        workoutSteps.add(CreateWorkoutStepSwim(
+                workoutSteps.size(),
+                182.88f,
+                "Drill w/ kickboard 200 yds",
+                null,
+                Intensity.ACTIVE,
+                SwimStroke.DRILL,
+                WorkoutEquipment.SWIM_KICKBOARD));
+
+        // Rest until lap button pressed
+        workoutSteps.add(CreateWorkoutStepSwimRest(
+                workoutSteps.size(),
+                WktStepDuration.OPEN,
+                null));
+
+        // 5 x 100 yds on 2:00
+        workoutSteps.add(CreateWorkoutStepSwim(
+                workoutSteps.size(),
+                91.44f,
+                "5 x 100 yds on 2:00",
+                null,
+                Intensity.ACTIVE,
+                SwimStroke.FREESTYLE,
+                null));
+
+        // Repeat on 2min (120sec)
+        workoutSteps.add(CreateWorkoutStepSwimRest(
+                workoutSteps.size(),
+                WktStepDuration.REPETITION_TIME,
+                120.0f));
+
+        // Repeat 5x Steps 4-5
+        workoutSteps.add(CreateWorkoutStepRepeat(
+                workoutSteps.size(),
+                workoutSteps.size() - 2,
+                5));
+
+        // 5 x 100 yds on 2:00
+        workoutSteps.add(CreateWorkoutStepSwim(
+                workoutSteps.size(),
+                91.44f,
+                "5 x 100 yds on 2:00",
+                null,
+                Intensity.ACTIVE,
+                SwimStroke.FREESTYLE,
+                null));
+
+        // Repeat on 2min (120sec)
+        workoutSteps.add(CreateWorkoutStepSwimRest(
+                workoutSteps.size(),
+                WktStepDuration.TIME,
+                120.0f));
+
+        // Repeat 5x Steps 4-5
+        workoutSteps.add(CreateWorkoutStepRepeat(
+                workoutSteps.size(),
+                workoutSteps.size() - 2,
+                4));
+
+        // Rest until lap button pressed
+        workoutSteps.add(CreateWorkoutStepSwimRest(
+                workoutSteps.size(),
+                WktStepDuration.OPEN,
+                null));
+
+        // Cool Down 100 yds
+        workoutSteps.add(CreateWorkoutStepSwim(
+                workoutSteps.size(),
+                YardsToMeters(100),
+                "Cool Down 100 yds",
+                null,
+                Intensity.COOLDOWN,
+                SwimStroke.INVALID,
+                null));
+
+        WorkoutMesg workoutMesg = new WorkoutMesg();
+        workoutMesg.setWktName("Ladder");
+        workoutMesg.setSport(Sport.SWIMMING);
+        workoutMesg.setSubSport(SubSport.LAP_SWIMMING);
+        workoutMesg.setPoolLength(YardsToMeters(25)); // 25 yards
+        workoutMesg.setPoolLengthUnit(DisplayMeasure.STATUTE);
+        workoutMesg.setNumValidSteps(workoutSteps.size());
+
+        CreateWorkout(workoutMesg, workoutSteps);
+    }
+
+    public static void CreateWorkout(WorkoutMesg workoutMesg, ArrayList<WorkoutStepMesg> workoutSteps) {
+        // The combination of file type, manufacturer id, product id, and serial number should be unique.
+        // When available, a non-random serial number should be used.
+        File filetype = File.WORKOUT;
+        short manufacturerId = Manufacturer.DEVELOPMENT;
+        short productId = 0;
+        Random random = new Random();
+        int serialNumber = random.nextInt();
+
+        // Every FIT file MUST contain a File ID message
+        FileIdMesg fileIdMesg = new FileIdMesg();
+        fileIdMesg.setType(filetype);
+        fileIdMesg.setManufacturer((int) manufacturerId);
+        fileIdMesg.setProduct((int) productId);
+        fileIdMesg.setTimeCreated(new DateTime(new Date()));
+        fileIdMesg.setSerialNumber((long) serialNumber);
+
+        // Create the output stream
+        FileEncoder encode;
+        String filename = workoutMesg.getWktName().replace(" ", "_") + ".fit";
+
+        try {
+            encode = new FileEncoder(new java.io.File(filename), Fit.ProtocolVersion.V1_0);
+        } catch (FitRuntimeException e) {
+            System.err.println("Error opening file " + filename);
+            e.printStackTrace();
+            return;
+        }
+
+        // Write the messages to the file, in the proper sequence
+        encode.write(fileIdMesg);
+        encode.write(workoutMesg);
+
+        for (WorkoutStepMesg workoutStep : workoutSteps) {
+            encode.write(workoutStep);
+        }
+
+        // Close the output stream
+        try {
+            encode.close();
+        } catch (FitRuntimeException e) {
+            System.err.println("Error closing encode.");
+            e.printStackTrace();
+            return;
+        }
+
+        System.out.println("Encoded FIT Workout File " + filename);
+    }
+
+
+    
+
+    private static WorkoutStepMesg CreateWorkoutStepRepeat(int messageIndex, int repeatFrom, int repetitions) {
+        WorkoutStepMesg workoutStepMesg = new WorkoutStepMesg();
+        workoutStepMesg.setMessageIndex((messageIndex));
+
+        workoutStepMesg.setDurationType(WktStepDuration.REPEAT_UNTIL_STEPS_CMPLT);
+        workoutStepMesg.setDurationValue((long) repeatFrom);
+
+        workoutStepMesg.setTargetType(WktStepTarget.OPEN);
+        workoutStepMesg.setTargetValue((long) repetitions);
+
+        return workoutStepMesg;
+    }
+
+    private static WorkoutStepMesg CreateWorkoutStepSwim(int messageIndex,
+                                                         float distance,
+                                                         String name,
+                                                         String notes,
+                                                         Intensity intensity,
+                                                         SwimStroke swimStroke,
+                                                         WorkoutEquipment equipment) {
+
+        WorkoutStepMesg workoutStepMesg = new WorkoutStepMesg();
+        workoutStepMesg.setMessageIndex(messageIndex);
+
+        if (name != null) {
+            workoutStepMesg.setWktStepName(name);
+        }
+
+        if (notes != null) {
+            workoutStepMesg.setNotes(notes);
+        }
+
+        workoutStepMesg.setIntensity(intensity);
+
+        workoutStepMesg.setDurationType(WktStepDuration.DISTANCE);
+        workoutStepMesg.setDurationDistance(distance);
+
+        workoutStepMesg.setTargetType(WktStepTarget.SWIM_STROKE);
+
+        workoutStepMesg.setTargetStrokeType(swimStroke);
+
+        if (equipment != null) {
+            workoutStepMesg.setEquipment(equipment);
+        }
+
+        return workoutStepMesg;
+    }
+
+    private static float YardsToMeters(int y) {
+        return (y/25) * 22.86f;
+    }
+
+    private static WorkoutStepMesg CreateWorkoutStepSwimRest(int messageIndex, WktStepDuration durationType, Float durationTime) {
+        WorkoutStepMesg workoutStepMesg = new WorkoutStepMesg();
+        workoutStepMesg.setMessageIndex(messageIndex);
+
+        workoutStepMesg.setDurationType(durationType);
+        workoutStepMesg.setDurationTime(durationTime);
+
+        workoutStepMesg.setTargetType(WktStepTarget.OPEN);
+
+        workoutStepMesg.setIntensity(Intensity.REST);
+
+        return workoutStepMesg;
+    }
+}
