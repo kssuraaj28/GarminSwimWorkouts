@@ -99,7 +99,8 @@ public class EncodeSwimWorkout {
                 } else if (item.strokename.toLowerCase().endsWith("fly")) {
                     s = SwimStroke.BUTTERFLY;
                 }
-                workoutSteps.add(item.lap_count * pool_len, item.repeats, item.poolReadable(w.pooltype), item.notes,
+                workoutSteps.add(item.lap_count * pool_len, item.repeats, item.poolReadable(w.pooltype),
+                        s == SwimStroke.MIXED ? item.strokename + '\n' + item.notes : item.notes,
                         phase, s, item.rest);
             }
         }
