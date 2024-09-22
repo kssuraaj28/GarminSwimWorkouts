@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Arrays;
 
 /*
  * Objects of this class are your swim workouts
@@ -26,6 +25,20 @@ public class SwimWorkout {
         public final boolean trackable;
         public final String strokename;
         public final String notes;
+
+        public String poolReadable(Pool pool) {
+            int dist = 25;
+            if (pool == Pool.LCM) {
+                dist = 50;
+            }
+
+            var p1 = String.format("%d * %d %s", repeats, lap_count * dist, strokename);
+            String sep = " @ ";
+            if (rest.is_fixed_rest) {
+                sep = " + ";
+            }
+            return p1 + sep + rest.time + "s";
+        }
 
         public String toString() {
             var p1 = String.format("%d * %dlp %s", repeats, lap_count, strokename);
@@ -74,23 +87,6 @@ public class SwimWorkout {
         this.main = main;
         this.cooldown = cooldown;
         this.pooltype = pooltype;
-    }
-
-    public static void main(String[] args) {
-
-        var workout = new SwimWorkout(
-                "Test",
-                Arrays.asList(
-                        new SwimWorkoutStep(4, new SwimWorkoutStep.Rest(true, 20), 4, true, "free", ""),
-                        new SwimWorkoutStep(4, new SwimWorkoutStep.Rest(false, 20), 4, true, "free", "")),
-                Arrays.asList(
-                        new SwimWorkoutStep(4, new SwimWorkoutStep.Rest(false, 20), 4, true, "free", "")),
-                Arrays.asList(
-                        new SwimWorkoutStep(4, new SwimWorkoutStep.Rest(false, 20), 4, true, "free", "")),
-                SwimWorkout.Pool.SCY);
-
-        System.out.println(workout);
-
     }
 
     @Override
