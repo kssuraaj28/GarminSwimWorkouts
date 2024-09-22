@@ -53,12 +53,11 @@ public class EncodeSwimWorkout {
                         size(),
                         size() - 2,
                         repeats));
+                add(CreateWorkoutStepSwimRest(
+                        size(),
+                        WktStepDuration.OPEN,
+                        null));
             }
-
-            add(CreateWorkoutStepSwimRest(
-                    size(),
-                    WktStepDuration.OPEN,
-                    null));
             return this;
         }
 
@@ -88,8 +87,20 @@ public class EncodeSwimWorkout {
                 phase = Intensity.COOLDOWN;
             }
             for (var item : seq) {
+                SwimStroke s = SwimStroke.MIXED;
+                if (!item.trackable) {
+                    s = SwimStroke.DRILL;
+                } else if (item.strokename.toLowerCase().startsWith("free")) {
+                    s = SwimStroke.FREESTYLE;
+                } else if (item.strokename.toLowerCase().startsWith("back")) {
+                    s = SwimStroke.BACKSTROKE;
+                } else if (item.strokename.toLowerCase().startsWith("breast")) {
+                    s = SwimStroke.BREASTSTROKE;
+                } else if (item.strokename.toLowerCase().endsWith("fly")) {
+                    s = SwimStroke.BUTTERFLY;
+                }
                 workoutSteps.add(item.lap_count * pool_len, item.repeats, item.poolReadable(w.pooltype), item.notes,
-                        phase, item.trackable ? SwimStroke.MIXED : SwimStroke.DRILL, item.rest);
+                        phase, s, item.rest);
             }
         }
 
@@ -116,7 +127,6 @@ public class EncodeSwimWorkout {
     // e.printStackTrace();
     // }
     // }
-
 
     private static void CreateWorkout(WorkoutMesg workoutMesg, ArrayList<WorkoutStepMesg> workoutSteps) {
         // The combination of file type, manufacturer id, product id, and serial number
@@ -215,7 +225,6 @@ public class EncodeSwimWorkout {
 
         return workoutStepMesg;
     }
-
 
     private static WorkoutStepMesg CreateWorkoutStepSwimRest(int messageIndex, WktStepDuration durationType,
             Float durationTime) {
