@@ -12,7 +12,7 @@ public class Example {
                 new SwimWorkout.SwimWorkoutStep(1, new SwimWorkout.SwimWorkoutStep.Rest(true, 30), 4, false,
                         "free kick",
                         "Bilateral Breath!"),
-                new SwimWorkout.SwimWorkoutStep(4, new SwimWorkout.SwimWorkoutStep.Rest(true, 15), 2, false, "mixed",
+                new SwimWorkout.SwimWorkoutStep(4, new SwimWorkout.SwimWorkoutStep.Rest(true, 15), 2, true, "mixed",
                         "Fr Br Bck Fly"));
 
         // 2x main set

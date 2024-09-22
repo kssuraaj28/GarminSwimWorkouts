@@ -38,7 +38,7 @@ public class EncodeSwimWorkout {
                     size(),
                     dist,
                     name,
-                    notes,
+                    name + notes,
                     i,
                     s,
                     null));
@@ -100,7 +100,7 @@ public class EncodeSwimWorkout {
                     s = SwimStroke.BUTTERFLY;
                 }
                 workoutSteps.add(item.lap_count * pool_len, item.repeats, item.poolReadable(w.pooltype),
-                        s == SwimStroke.MIXED ? item.strokename + '\n' + item.notes : item.notes,
+                        item.notes,
                         phase, s, item.rest);
             }
         }
