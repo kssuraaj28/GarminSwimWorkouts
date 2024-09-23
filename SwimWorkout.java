@@ -107,9 +107,13 @@ public class SwimWorkout {
 
         Function<Integer, Integer> toUnits = (n) -> n * (pooltype == Pool.LCM ? 50 : 25);
 
-        return String.format("%s (%s)", name, pooltype) +
-                String.format("\n--Warmup(%d)--\n%s", toUnits.apply(warmup_cnt), warmup.toString()) +
-                String.format("\n--Main(%d)--\n%s", toUnits.apply(main_cnt), main.toString()) +
-                String.format("\n--Cooldown(%d)--\n%s", toUnits.apply(cool_cnt), cooldown.toString());
+        final var warmup_dist = toUnits.apply(warmup_cnt);
+        final var main_dist = toUnits.apply(main_cnt);
+        final var cool_dist = toUnits.apply(cool_cnt);
+
+        return String.format("%s (%d %s)", name, warmup_dist + main_dist + cool_dist, pooltype) +
+                String.format("\n--Warmup(%d)--\n%s", warmup_dist, warmup.toString()) +
+                String.format("\n--Main(%d)--\n%s", main_dist, main.toString()) +
+                String.format("\n--Cooldown(%d)--\n%s", cool_dist, cooldown.toString());
     }
 }

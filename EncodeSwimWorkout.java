@@ -38,7 +38,7 @@ public class EncodeSwimWorkout {
                     size(),
                     dist,
                     name,
-                    name + notes,
+                    String.format("%s\n\n%s", name, notes),
                     i,
                     s,
                     null));
