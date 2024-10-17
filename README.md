@@ -1,7 +1,5 @@
 # Directions
-
-`javac -cp fit.jar *.java`  #Compile
-`java -cp .:fit.jar Example`  #Run
+`run.sh` # Runs everything
 
 You should have a sample fit file
 
