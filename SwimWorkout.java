@@ -1,7 +1,6 @@
 import java.util.List;
 import java.util.function.Function;
 
-// TODO: Calculate yardage
 /*
  * Objects of this class are your swim workouts
  */

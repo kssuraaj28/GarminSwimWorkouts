@@ -3,6 +3,30 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Example {
+    private static SwimWorkout freeEasy() {
+        var warmup = Arrays.asList(
+                new SwimWorkout.SwimWorkoutStep(1, new SwimWorkout.SwimWorkoutStep.Rest(true, 35), 12, true,
+                        "free",
+                        "5 kicks underwater"));
+
+        var main = Arrays.asList(
+                new SwimWorkout.SwimWorkoutStep(8, new SwimWorkout.SwimWorkoutStep.Rest(true, 30), 4, true, "free",
+                        "Snorkel"));
+
+        var cooldown = Arrays.asList(
+                new SwimWorkout.SwimWorkoutStep(10, new SwimWorkout.SwimWorkoutStep.Rest(true, 10), 2, true, "free",
+                        "HR zone down!"));
+
+        var workout = new SwimWorkout(
+                "Freestyle Easy",
+                warmup,
+                main,
+                cooldown,
+                SwimWorkout.Pool.SCY);
+
+        return workout;
+    }
+
     private static SwimWorkout buildingCapacity2() {
         var warmup = Arrays.asList(
                 new SwimWorkout.SwimWorkoutStep(1, new SwimWorkout.SwimWorkoutStep.Rest(true, 35), 12, true,
@@ -17,7 +41,6 @@ public class Example {
                 new SwimWorkout.SwimWorkoutStep(1, new SwimWorkout.SwimWorkoutStep.Rest(true, 35), 4, true,
                         "free",
                         "Strong kick!"));
-
 
         var main = Arrays.asList(
                 new SwimWorkout.SwimWorkoutStep(6, new SwimWorkout.SwimWorkoutStep.Rest(true, 50), 8, true, "free",
@@ -109,11 +132,15 @@ public class Example {
         // "Hard UW Kick"));
         // ;
 
-        var workout = buildingCapacity();
+        var workout = freeEasy();
         System.out.println(workout);
         EncodeSwimWorkout.EncodeToFit(workout);
-        workout = buildingCapacity2();
-        System.out.println(workout);
-        EncodeSwimWorkout.EncodeToFit(workout);
+
+        // var workout = buildingCapacity();
+        // System.out.println(workout);
+        // EncodeSwimWorkout.EncodeToFit(workout);
+        // workout = buildingCapacity2();
+        // System.out.println(workout);
+        // EncodeSwimWorkout.EncodeToFit(workout);
     }
 }

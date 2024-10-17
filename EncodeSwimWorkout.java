@@ -32,6 +32,7 @@ public class EncodeSwimWorkout {
     private static class WorkoutSteps extends ArrayList<WorkoutStepMesg> {
         // I don't know how the enclosing class can access these private methods..
         private WorkoutSteps add(float dist, int repeats, String name, String notes, Intensity i, SwimStroke s,
+                WorkoutEquipment e,
                 SwimWorkout.SwimWorkoutStep.Rest r) {
 
             add(CreateWorkoutStepSwim(
@@ -41,7 +42,7 @@ public class EncodeSwimWorkout {
                     String.format("%s\n\n%s", name, notes),
                     i,
                     s,
-                    null));
+                    e));
 
             add(CreateWorkoutStepSwimRest(
                     size(),
@@ -88,6 +89,7 @@ public class EncodeSwimWorkout {
             }
             for (var item : seq) {
                 SwimStroke s = SwimStroke.MIXED;
+
                 if (!item.trackable) {
                     s = SwimStroke.DRILL;
                 } else if (item.strokename.toLowerCase().startsWith("free")) {
@@ -99,9 +101,25 @@ public class EncodeSwimWorkout {
                 } else if (item.strokename.toLowerCase().endsWith("fly")) {
                     s = SwimStroke.BUTTERFLY;
                 }
+
+                WorkoutEquipment equip = null;
+                String str = (item.strokename + item.notes).toLowerCase();
+                // Fake machine learning
+                if (str.contains("buoy")) {
+                    equip = WorkoutEquipment.SWIM_PULL_BUOY;
+                } else if (str.contains("board")) {
+                    equip = WorkoutEquipment.SWIM_KICKBOARD;
+                } else if (str.contains("paddle")) {
+                    equip = WorkoutEquipment.SWIM_PADDLES;
+                } else if (str.contains("fins")) {
+                    equip = WorkoutEquipment.SWIM_FINS;
+                } else if (str.contains("snorkel")) {
+                    equip = WorkoutEquipment.SWIM_SNORKEL;
+                }
+
                 workoutSteps.add(item.lap_count * pool_len, item.repeats, item.poolReadable(w.pooltype),
                         item.notes,
-                        phase, s, item.rest);
+                        phase, s, equip, item.rest);
             }
         }
 
