@@ -64,7 +64,7 @@ public class EncodeSwimWorkout {
 
     }
 
-    public static void EncodeToFit(SwimWorkout w) {
+    public static void EncodeToFit(String wrk_name, SwimWorkout w) {
         float pool_len;
         if (w.pooltype == SwimWorkout.Pool.LCM) {
             pool_len = 50f;
@@ -124,7 +124,7 @@ public class EncodeSwimWorkout {
         }
 
         WorkoutMesg workoutMesg = new WorkoutMesg();
-        workoutMesg.setWktName(w.name);
+        workoutMesg.setWktName(wrk_name);
         workoutMesg.setSport(Sport.SWIMMING);
         workoutMesg.setSubSport(SubSport.LAP_SWIMMING);
         workoutMesg.setPoolLength(pool_len);

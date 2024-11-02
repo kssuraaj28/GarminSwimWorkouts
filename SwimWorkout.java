@@ -71,7 +71,6 @@ public class SwimWorkout {
     };
 
     // Why can't I have aliases in Java...
-    public final String name;
     public final List<SwimWorkoutStep> warmup;
     public final List<SwimWorkoutStep> main;
     public final List<SwimWorkoutStep> cooldown;
@@ -86,12 +85,10 @@ public class SwimWorkout {
     }
 
     public SwimWorkout(
-            String name,
             List<SwimWorkoutStep> warmup,
             List<SwimWorkoutStep> main,
             List<SwimWorkoutStep> cooldown,
             Pool pooltype) {
-        this.name = name;
         this.warmup = warmup;
         this.main = main;
         this.cooldown = cooldown;
@@ -110,7 +107,7 @@ public class SwimWorkout {
         final var main_dist = toUnits.apply(main_cnt);
         final var cool_dist = toUnits.apply(cool_cnt);
 
-        return String.format("%s (%d %s)", name, warmup_dist + main_dist + cool_dist, pooltype) +
+        return String.format("Distance - (%d %s)",  warmup_dist + main_dist + cool_dist, pooltype) +
                 String.format("\n--Warmup(%d)--\n%s", warmup_dist, warmup.toString()) +
                 String.format("\n--Main(%d)--\n%s", main_dist, main.toString()) +
                 String.format("\n--Cooldown(%d)--\n%s", cool_dist, cooldown.toString());
