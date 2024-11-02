@@ -15,3 +15,4 @@ You should have a sample fit file
 # TODOs
  * Clean the project
  * Maybe separate workouts better
+ * We are using bad bad bad java hacks to make this work
