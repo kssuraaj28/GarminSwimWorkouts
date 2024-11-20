@@ -16,3 +16,5 @@ You should have a sample fit file
  * Clean the project
  * Maybe separate workouts better
  * We are using bad bad bad java hacks to make this work
+ * It seems to me that the watch does deduplication
+ * It is possible for workouts to have "general notes" (If you use connect to create workouts). I need to figure out how to do this

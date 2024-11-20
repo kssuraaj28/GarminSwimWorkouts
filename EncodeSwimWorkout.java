@@ -125,6 +125,9 @@ public class EncodeSwimWorkout {
 
         WorkoutMesg workoutMesg = new WorkoutMesg();
         workoutMesg.setWktName(wrk_name);
+        // workoutMesg.setFieldValue(, 0, "Hopefully notes",
+        // Fit.SUBFIELD_INDEX_MAIN_FIELD);
+        // I think that you may have to do something like "Add field" or something..
         workoutMesg.setSport(Sport.SWIMMING);
         workoutMesg.setSubSport(SubSport.LAP_SWIMMING);
         workoutMesg.setPoolLength(pool_len);
@@ -167,7 +170,7 @@ public class EncodeSwimWorkout {
 
         // Create the output stream
         FileEncoder encode;
-        String filename = workoutMesg.getWktName().replace(" ", "_") + ".fit";
+        String filename = workoutMesg.getWktName().replace(" ", "_") + "_workout.fit";
 
         try {
             encode = new FileEncoder(new java.io.File(filename), Fit.ProtocolVersion.V1_0);
