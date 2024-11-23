@@ -98,22 +98,21 @@ public class SwimWorkout {
         this.pooltype = pooltype;
     }
 
+    public String lapsDistDesc(int lap_count) {
+        return String.format("%d%c", lap_count * (pooltype == Pool.LCM ? 50 : 25),
+                (pooltype == Pool.SCY ? 'y' : 'm'));
+    }
+
     @Override
     public String toString() {
         final var warmup_cnt = totalLapCount(warmup);
         final var main_cnt = totalLapCount(main);
         final var cool_cnt = totalLapCount(cooldown);
 
-        Function<Integer, Integer> toUnits = (n) -> n * (pooltype == Pool.LCM ? 50 : 25);
-
-        final var warmup_dist = toUnits.apply(warmup_cnt);
-        final var main_dist = toUnits.apply(main_cnt);
-        final var cool_dist = toUnits.apply(cool_cnt);
-
-        return String.format("Distance - (%d %s)",  warmup_dist + main_dist + cool_dist, pooltype) +
-                String.format("\n--Description--\n%s", description) +
-                String.format("\n--Warmup(%d)--\n%s", warmup_dist, warmup.toString()) +
-                String.format("\n--Main(%d)--\n%s", main_dist, main.toString()) +
-                String.format("\n--Cooldown(%d)--\n%s", cool_dist, cooldown.toString());
+        return String.format("Distance - (%s %s)", lapsDistDesc(warmup_cnt + main_cnt + cool_cnt), pooltype) +
+                String.format("\n\n--Description--\n%s", description) +
+                String.format("\n\n--Warmup(%s)--\n%s", lapsDistDesc(warmup_cnt), warmup.toString()) +
+                String.format("\n\n--Main(%s)--\n%s", lapsDistDesc(main_cnt), main.toString()) +
+                String.format("\n\n--Cooldown(%s)--\n%s", lapsDistDesc(cool_cnt), cooldown.toString());
     }
 }
