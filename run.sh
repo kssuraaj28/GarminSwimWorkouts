@@ -1,30 +1,31 @@
 #!/usr/bin/env bash
-wrk_java_file=$(realpath $1)
+java_file_input=$(realpath $1)
 fit_name=$2 
 
 source common.sh
 cd "$script_dir"
 
-wrk_class="${wrk_java_file%.java}"
-wrk_class_file="$wrk_class".class
+wrk_dirname=$(dirname $java_file_input)
+wrk_java=$(basename $java_file_input)
+wrk="${wrk_java%.java}"
+wrk_class=$wrk.class
+generated_fitfile=${fit_name}_workout.fit
 
 
-echo "Compiling $wrk_java_file to $wrk_class_file..."
-javac -cp "swim_wrk.jar" "$wrk_java_file"
+echo "Compiling $java_file_input to $wrk_class_file..."
+javac -cp "swim_wrk.jar" "$java_file_input"
 
-echo "Moving $wrk_class_file to current dir.." #I don't know why I need to do this..
-mv "$wrk_class_file" .
 
 echo "Compiling to .fit file"
-java -cp ".:swim_wrk.jar:$(print_sdk_jarpath)" Runner "$(basename $wrk_class)" "$fit_name" #The classpath including . is supposed to help load runner
+java -cp ".:$wrk_dirname:swim_wrk.jar:$(print_sdk_jarpath)" \
+                 Runner "$wrk" "$fit_name" 
+
+
+echo "Moving $generated_fitfile to $wrk_dirname"
+mv "$generated_fitfile" "$wrk_dirname"
+
 exit
-
-#java -cp MyApp.jar your.package.MainClass
 # jar tf yourfile.jar
-
-# TODO: This is extremely braindead...
-mv example_workouts/*.class .
-java -cp .:fit.jar Runner
 
 watch_dir=${watch_dir:-"/Volumes/GARMIN/GARMIN/Workouts/"}
 
