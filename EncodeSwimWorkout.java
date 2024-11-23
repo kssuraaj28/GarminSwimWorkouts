@@ -139,14 +139,6 @@ public class EncodeSwimWorkout {
         CreateWorkout(workoutMesg, workoutSteps);
     }
 
-    // public static void main(String[] args) {
-    // try {
-    // CreatePoolSwimWorkout();
-    // } catch (Exception e) {
-    // System.out.println("Exception encoding workout: " + e.getMessage());
-    // e.printStackTrace();
-    // }
-    // }
 
     private static void CreateWorkout(WorkoutMesg workoutMesg, ArrayList<WorkoutStepMesg> workoutSteps) {
         // The combination of file type, manufacturer id, product id, and serial number
