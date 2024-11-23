@@ -1,6 +1,6 @@
 # Directions
-`build.sh` # Builds the project
-`run.sh example_workouts/BasicFree.java BasicFree` # Generates a BasicFree\_workout.fit file
+* `build.sh` # Builds the project
+* `run.sh example_workouts/BasicFree.java BasicFree` # Generates a BasicFree\_workout.fit file
 
 
 # Adding workouts to Garmin Device
