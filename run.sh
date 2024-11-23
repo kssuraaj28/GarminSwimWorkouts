@@ -16,7 +16,7 @@ echo "Moving $wrk_class_file to current dir.." #I don't know why I need to do th
 mv "$wrk_class_file" .
 
 echo "Compiling to .fit file"
-java -cp "swim_wrk.jar:$(print_sdk_jarpath)" Runner "$(basename $wrk_class)" "$fit_name"
+java -cp ".:swim_wrk.jar:$(print_sdk_jarpath)" Runner "$(basename $wrk_class)" "$fit_name" #The classpath including . is supposed to help load runner
 exit
 
 #java -cp MyApp.jar your.package.MainClass
