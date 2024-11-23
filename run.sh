@@ -23,18 +23,3 @@ java -cp ".:$wrk_dirname:swim_wrk.jar:$(print_sdk_jarpath)" \
 
 echo "Moving $generated_fitfile to $wrk_dirname"
 mv "$generated_fitfile" "$wrk_dirname"
-
-exit
-# jar tf yourfile.jar
-
-watch_dir=${watch_dir:-"/Volumes/GARMIN/GARMIN/Workouts/"}
-
-if [ -d "$watch_dir" ]; then
-    echo "Directory exists! Copying fit files"
-    echo *.fit
-    cp *.fit "$watch_dir"
-    sync
-else
-    echo "Watch directory does not exist!"
-fi
-
