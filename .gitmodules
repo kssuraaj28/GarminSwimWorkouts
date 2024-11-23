@@ -1,0 +1,3 @@
+[submodule "fit-java-sdk"]
+	path = fit-java-sdk
+	url = https://github.com/kssuraaj28/fit-java-sdk
