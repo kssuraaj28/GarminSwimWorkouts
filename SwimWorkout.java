@@ -74,6 +74,7 @@ public class SwimWorkout {
     public final List<SwimWorkoutStep> warmup;
     public final List<SwimWorkoutStep> main;
     public final List<SwimWorkoutStep> cooldown;
+    public final String description;
     public final Pool pooltype;
 
     public int totalLapCount(List<SwimWorkoutStep> inp) {
@@ -88,10 +89,12 @@ public class SwimWorkout {
             List<SwimWorkoutStep> warmup,
             List<SwimWorkoutStep> main,
             List<SwimWorkoutStep> cooldown,
+            String description,
             Pool pooltype) {
         this.warmup = warmup;
         this.main = main;
         this.cooldown = cooldown;
+        this.description = description;
         this.pooltype = pooltype;
     }
 

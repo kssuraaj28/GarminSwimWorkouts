@@ -125,9 +125,7 @@ public class EncodeSwimWorkout {
 
         WorkoutMesg workoutMesg = new WorkoutMesg();
         workoutMesg.setWktName(wrk_name);
-        // workoutMesg.setFieldValue(, 0, "Hopefully notes",
-        // Fit.SUBFIELD_INDEX_MAIN_FIELD);
-        // I think that you may have to do something like "Add field" or something..
+        workoutMesg.setNotes(w.description);
         workoutMesg.setSport(Sport.SWIMMING);
         workoutMesg.setSubSport(SubSport.LAP_SWIMMING);
         workoutMesg.setPoolLength(pool_len);
