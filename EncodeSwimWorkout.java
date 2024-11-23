@@ -125,7 +125,11 @@ public class EncodeSwimWorkout {
 
         WorkoutMesg workoutMesg = new WorkoutMesg();
         workoutMesg.setWktName(wrk_name);
-        workoutMesg.setNotes(w.description);
+        workoutMesg.setNotes(
+                String.format("%s\n%s",
+                        w.lapsDistDesc(
+                                w.totalLapCount(w.warmup) + w.totalLapCount(w.main) + w.totalLapCount(w.cooldown)),
+                        w.description));
         workoutMesg.setSport(Sport.SWIMMING);
         workoutMesg.setSubSport(SubSport.LAP_SWIMMING);
         workoutMesg.setPoolLength(pool_len);
@@ -138,7 +142,6 @@ public class EncodeSwimWorkout {
 
         CreateWorkout(workoutMesg, workoutSteps);
     }
-
 
     private static void CreateWorkout(WorkoutMesg workoutMesg, ArrayList<WorkoutStepMesg> workoutSteps) {
         // The combination of file type, manufacturer id, product id, and serial number
