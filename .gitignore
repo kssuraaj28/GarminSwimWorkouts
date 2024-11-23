@@ -1,3 +1,4 @@
 *.class
 *.fit
 .vim
+*.jar
