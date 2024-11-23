@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+wrk_java_file=$(realpath $1)
+fit_name=$2 
+
 source common.sh
 cd "$script_dir"
 
-wrk_java_file=$1
-fit_name=$2 
 wrk_class="${wrk_java_file%.java}"
 wrk_class_file="$wrk_class".class
 
