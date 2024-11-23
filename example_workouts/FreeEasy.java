@@ -19,6 +19,7 @@ public class FreeEasy {
                 warmup,
                 main,
                 cooldown,
+                "Free pull workout with snorkel",
                 SwimWorkout.Pool.SCY);
 
         return workout;

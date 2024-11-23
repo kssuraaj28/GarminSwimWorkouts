@@ -40,6 +40,7 @@ public class BuildingCapacity {
                 warmup,
                 main,
                 cooldown,
+                "Aerobic Freestyle Workout",
                 SwimWorkout.Pool.SCY);
         return workout;
     }

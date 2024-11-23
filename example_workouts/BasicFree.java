@@ -41,6 +41,7 @@ public class BasicFree {
                 warmup,
                 main,
                 cooldown,
+                "Simple Free Pull workout",
                 SwimWorkout.Pool.SCY);
         return workout;
     }
