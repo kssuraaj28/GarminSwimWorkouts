@@ -111,6 +111,7 @@ public class SwimWorkout {
         final var cool_dist = toUnits.apply(cool_cnt);
 
         return String.format("Distance - (%d %s)",  warmup_dist + main_dist + cool_dist, pooltype) +
+                String.format("\n--Description--\n%s", description) +
                 String.format("\n--Warmup(%d)--\n%s", warmup_dist, warmup.toString()) +
                 String.format("\n--Main(%d)--\n%s", main_dist, main.toString()) +
                 String.format("\n--Cooldown(%d)--\n%s", cool_dist, cooldown.toString());
