@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.function.Function;
 
 /*
  * Objects of this class are your swim workouts
