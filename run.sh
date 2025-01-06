@@ -6,7 +6,9 @@ source "$script_dir"/common.sh
 
 java_file_input=$(realpath $1)
 fit_name=$2 
-runner_log=$(realpath ${3:-/dev/stdout})
+runner_log=${3:-/dev/stdout}
+touch "$runner_log"
+runner_log=$(realpath "$runner_log")
 
 cd "$script_dir"
 source common.sh
