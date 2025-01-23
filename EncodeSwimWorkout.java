@@ -92,13 +92,13 @@ public class EncodeSwimWorkout {
 
                 if (!item.trackable) {
                     s = SwimStroke.DRILL;
-                } else if (item.strokename.toLowerCase().startsWith("free")) {
+                } else if (item.strokename.toLowerCase().contains("free")) {
                     s = SwimStroke.FREESTYLE;
-                } else if (item.strokename.toLowerCase().startsWith("back")) {
+                } else if (item.strokename.toLowerCase().contains("back")) {
                     s = SwimStroke.BACKSTROKE;
-                } else if (item.strokename.toLowerCase().startsWith("breast")) {
+                } else if (item.strokename.toLowerCase().contains("breast")) {
                     s = SwimStroke.BREASTSTROKE;
-                } else if (item.strokename.toLowerCase().endsWith("fly")) {
+                } else if (item.strokename.toLowerCase().contains("fly")) {
                     s = SwimStroke.BUTTERFLY;
                 }
 
